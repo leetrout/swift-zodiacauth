@@ -1,5 +1,5 @@
-Zodiac Sign Based Authentication Middleware for Swift (OpenStack)
-#################################################################
+Zodiac Sign Based Authentication Middleware for Swift (OpenStack) based on Swauth (https://github.com/gholt/swauth).
+
 
 ## Installation
 Install zodiacauth by downloading the source or using a package manager such as pip.
