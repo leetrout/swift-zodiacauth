@@ -3,6 +3,8 @@ Swauth (https://github.com/gholt/swauth).
 
 
 ## Installation
+Zodiacauth requires Swauth so begin by installing Swauth.
+
 Install zodiacauth by downloading the source or using a package manager such as 
 pip.
 
@@ -23,6 +25,17 @@ provide a path to that file as well.
     use = egg:zodiacauth#zodiacauth
     zodiac_acl_path = /tmp/acl.json
     super_admin_key = zodiacauthkey
+
+Once you have configured zodiacauth you can easily add users using the Swauth
+tools:
+
+    swift-init proxy reload
+
+    swauth-prep -K swauthkey
+
+    swauth-add-user -A http://127.0.0.1:8080/auth/ -K swauthkey -a test tester testing
+
+    swift -A http://127.0.0.1:8080/auth/v1.0 -U test:tester -K testing stat -v
 
 ## Access Control List
 The ACL is an external file in JSON format that specifies a combination if 
