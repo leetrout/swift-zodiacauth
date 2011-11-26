@@ -1,0 +1,1 @@
+-e git://github.com/gholt/swauth@4755a332b4dc8b4a928441d60535c45e54aea9a4#egg=swauth-dev
