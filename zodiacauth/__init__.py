@@ -1,5 +1,6 @@
 import datetime
 
+from swift.common.client import ClientException
 from swift.common.direct_client import direct_head_container, direct_head_object
 from swift.common.utils import get_logger, get_remote_client, split_path
 
@@ -59,12 +60,15 @@ class ZodiacAuth(Swauth):
                     # direct head requests return a timestamp whereas calls
                     # to the proxy do not. this might not be the best thing
                     # to do. open to suggestions.
-                    container_meta = direct_head_container(
-                        container_nodes[1][0],
-                        container_nodes[0],
-                        account,
-                        container
-                    )
+                    try:
+                        container_meta = direct_head_container(
+                            container_nodes[1][0],
+                            container_nodes[0],
+                            account,
+                            container
+                        )
+                    except ClientException:
+                        return ret
                     container_date = datetime.datetime.fromtimestamp(
                         float(container_meta['x-timestamp'])
                     )
@@ -86,13 +90,16 @@ class ZodiacAuth(Swauth):
                         obj_nodes = self.app.container_ring.get_nodes(account, 
                             container, obj)
                         if obj_nodes:
-                            obj_meta = direct_head_object(
-                                obj_nodes[1][0],
-                                container_nodes[0],
-                                account,
-                                container,
-                                obj,
-                            )
+                            try:
+                                obj_meta = direct_head_object(
+                                    obj_nodes[1][0],
+                                    container_nodes[0],
+                                    account,
+                                    container,
+                                    obj,
+                                )
+                            except ClientException:
+                                return ret
                             obj_date = datetime.datetime.fromtimestamp(
                                 float(obj_meta['x-timestamp'])
                             )
