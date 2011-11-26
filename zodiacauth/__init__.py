@@ -34,7 +34,7 @@ class ZodiacAuth(Swauth):
     
     def authorize(self, req):
         ret = super(ZodiacAuth, self).authorize(req)
-        if ret is None:
+        if ret is None and req.method == 'GET':
             # passed swauth rules, now check zodiac rules
             
             # split the path
